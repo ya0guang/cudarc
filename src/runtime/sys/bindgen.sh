@@ -12,6 +12,9 @@ bindgen \
   --with-derive-eq \
   --with-derive-hash \
   --with-derive-ord \
+  --with-derive-custom-enum ".*"=IntoPrimitive \
+  --with-derive-custom-enum ".*"=TryFromPrimitive \
+  --raw-line "use num_enum::{IntoPrimitive, TryFromPrimitive};" \
   --use-core \
   --dynamic-loading Lib \
   wrapper.h -- -I/usr/local/cuda/include \
