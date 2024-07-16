@@ -6,6 +6,7 @@ bindgen \
   --allowlist-type "^[Cc][Uu][Dd][Aa].*" \
   --allowlist-var "^[Cc][Uu][Dd][Aa].*" \
   --allowlist-function "^[Cc][Uu][Dd][Aa].*" \
+  --allowlist-function "^__[Cc][Uu][Dd][Aa].*" \
   --default-enum-style=rust \
   --no-doc-comments \
   --with-derive-default \

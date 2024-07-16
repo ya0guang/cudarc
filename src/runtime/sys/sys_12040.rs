@@ -86,6 +86,43 @@ pub enum cudaRoundMode {
 }
 #[repr(C)]
 #[derive(Debug, Default, Copy, Clone, Hash, PartialOrd, Ord, PartialEq, Eq)]
+pub struct uint3 {
+    pub x: ::core::ffi::c_uint,
+    pub y: ::core::ffi::c_uint,
+    pub z: ::core::ffi::c_uint,
+}
+#[test]
+fn bindgen_test_layout_uint3() {
+    const UNINIT: ::core::mem::MaybeUninit<uint3> = ::core::mem::MaybeUninit::uninit();
+    let ptr = UNINIT.as_ptr();
+    assert_eq!(
+        ::core::mem::size_of::<uint3>(),
+        12usize,
+        concat!("Size of: ", stringify!(uint3))
+    );
+    assert_eq!(
+        ::core::mem::align_of::<uint3>(),
+        4usize,
+        concat!("Alignment of ", stringify!(uint3))
+    );
+    assert_eq!(
+        unsafe { ::core::ptr::addr_of!((*ptr).x) as usize - ptr as usize },
+        0usize,
+        concat!("Offset of field: ", stringify!(uint3), "::", stringify!(x))
+    );
+    assert_eq!(
+        unsafe { ::core::ptr::addr_of!((*ptr).y) as usize - ptr as usize },
+        4usize,
+        concat!("Offset of field: ", stringify!(uint3), "::", stringify!(y))
+    );
+    assert_eq!(
+        unsafe { ::core::ptr::addr_of!((*ptr).z) as usize - ptr as usize },
+        8usize,
+        concat!("Offset of field: ", stringify!(uint3), "::", stringify!(z))
+    );
+}
+#[repr(C)]
+#[derive(Debug, Default, Copy, Clone, Hash, PartialOrd, Ord, PartialEq, Eq)]
 pub struct dim3 {
     pub x: ::core::ffi::c_uint,
     pub y: ::core::ffi::c_uint,
@@ -8745,6 +8782,79 @@ pub type cudaStreamCallback_t = ::core::option::Option<
         userData: *mut ::core::ffi::c_void,
     ),
 >;
+#[repr(C)]
+#[derive(Debug, Copy, Clone, Hash, PartialOrd, Ord, PartialEq, Eq)]
+pub struct __fatBinC_Wrapper_t {
+    pub magic: ::core::ffi::c_int,
+    pub version: ::core::ffi::c_int,
+    pub data: *const ::core::ffi::c_ulonglong,
+    pub filename_or_fatbins: *mut ::core::ffi::c_void,
+}
+#[test]
+fn bindgen_test_layout___fatBinC_Wrapper_t() {
+    const UNINIT: ::core::mem::MaybeUninit<__fatBinC_Wrapper_t> =
+        ::core::mem::MaybeUninit::uninit();
+    let ptr = UNINIT.as_ptr();
+    assert_eq!(
+        ::core::mem::size_of::<__fatBinC_Wrapper_t>(),
+        24usize,
+        concat!("Size of: ", stringify!(__fatBinC_Wrapper_t))
+    );
+    assert_eq!(
+        ::core::mem::align_of::<__fatBinC_Wrapper_t>(),
+        8usize,
+        concat!("Alignment of ", stringify!(__fatBinC_Wrapper_t))
+    );
+    assert_eq!(
+        unsafe { ::core::ptr::addr_of!((*ptr).magic) as usize - ptr as usize },
+        0usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(__fatBinC_Wrapper_t),
+            "::",
+            stringify!(magic)
+        )
+    );
+    assert_eq!(
+        unsafe { ::core::ptr::addr_of!((*ptr).version) as usize - ptr as usize },
+        4usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(__fatBinC_Wrapper_t),
+            "::",
+            stringify!(version)
+        )
+    );
+    assert_eq!(
+        unsafe { ::core::ptr::addr_of!((*ptr).data) as usize - ptr as usize },
+        8usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(__fatBinC_Wrapper_t),
+            "::",
+            stringify!(data)
+        )
+    );
+    assert_eq!(
+        unsafe { ::core::ptr::addr_of!((*ptr).filename_or_fatbins) as usize - ptr as usize },
+        16usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(__fatBinC_Wrapper_t),
+            "::",
+            stringify!(filename_or_fatbins)
+        )
+    );
+}
+impl Default for __fatBinC_Wrapper_t {
+    fn default() -> Self {
+        let mut s = ::core::mem::MaybeUninit::<Self>::uninit();
+        unsafe {
+            ::core::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
+            s.assume_init()
+        }
+    }
+}
 extern crate libloading;
 pub struct Lib {
     __library: ::libloading::Library,
@@ -10928,6 +11038,104 @@ pub struct Lib {
     >,
     pub cudaProfilerStart: Result<unsafe extern "C" fn() -> cudaError_t, ::libloading::Error>,
     pub cudaProfilerStop: Result<unsafe extern "C" fn() -> cudaError_t, ::libloading::Error>,
+    pub __cudaRegisterFatBinary: Result<
+        unsafe extern "C" fn(fatCubin: *mut __fatBinC_Wrapper_t) -> *mut *mut ::core::ffi::c_void,
+        ::libloading::Error,
+    >,
+    pub __cudaRegisterFatBinaryEnd: Result<
+        unsafe extern "C" fn(fatCubinHandle: *mut *mut ::core::ffi::c_void),
+        ::libloading::Error,
+    >,
+    pub __cudaUnregisterFatBinary: Result<
+        unsafe extern "C" fn(fatCubinHandle: *mut *mut ::core::ffi::c_void),
+        ::libloading::Error,
+    >,
+    pub __cudaRegisterVar: Result<
+        unsafe extern "C" fn(
+            fatCubinHandle: *mut *mut ::core::ffi::c_void,
+            hostVar: *mut ::core::ffi::c_char,
+            deviceAddress: *mut ::core::ffi::c_char,
+            deviceName: *const ::core::ffi::c_char,
+            ext: ::core::ffi::c_int,
+            size: usize,
+            constant: ::core::ffi::c_int,
+            global: ::core::ffi::c_int,
+        ),
+        ::libloading::Error,
+    >,
+    pub __cudaRegisterManagedVar: Result<
+        unsafe extern "C" fn(
+            fatCubinHandle: *mut *mut ::core::ffi::c_void,
+            hostVarPtrAddress: *mut *mut ::core::ffi::c_void,
+            deviceAddress: *mut ::core::ffi::c_char,
+            deviceName: *const ::core::ffi::c_char,
+            ext: ::core::ffi::c_int,
+            size: usize,
+            constant: ::core::ffi::c_int,
+            global: ::core::ffi::c_int,
+        ),
+        ::libloading::Error,
+    >,
+    pub __cudaInitModule: Result<
+        unsafe extern "C" fn(fatCubinHandle: *mut *mut ::core::ffi::c_void) -> ::core::ffi::c_char,
+        ::libloading::Error,
+    >,
+    pub __cudaRegisterTexture: Result<
+        unsafe extern "C" fn(
+            fatCubinHandle: *mut *mut ::core::ffi::c_void,
+            hostVar: *const [u8; 0usize],
+            deviceAddress: *mut *const ::core::ffi::c_void,
+            deviceName: *const ::core::ffi::c_char,
+            dim: ::core::ffi::c_int,
+            norm: ::core::ffi::c_int,
+            ext: ::core::ffi::c_int,
+        ),
+        ::libloading::Error,
+    >,
+    pub __cudaRegisterSurface: Result<
+        unsafe extern "C" fn(
+            fatCubinHandle: *mut *mut ::core::ffi::c_void,
+            hostVar: *const [u8; 0usize],
+            deviceAddress: *mut *const ::core::ffi::c_void,
+            deviceName: *const ::core::ffi::c_char,
+            dim: ::core::ffi::c_int,
+            ext: ::core::ffi::c_int,
+        ),
+        ::libloading::Error,
+    >,
+    pub __cudaRegisterFunction: Result<
+        unsafe extern "C" fn(
+            fatCubinHandle: *mut *mut ::core::ffi::c_void,
+            hostFun: *const ::core::ffi::c_char,
+            deviceFun: *mut ::core::ffi::c_char,
+            deviceName: *const ::core::ffi::c_char,
+            thread_limit: ::core::ffi::c_int,
+            tid: *mut uint3,
+            bid: *mut uint3,
+            bDim: *mut dim3,
+            gDim: *mut dim3,
+            wSize: *mut ::core::ffi::c_int,
+        ),
+        ::libloading::Error,
+    >,
+    pub __cudaPopCallConfiguration: Result<
+        unsafe extern "C" fn(
+            gridDim: *mut dim3,
+            blockDim: *mut dim3,
+            sharedMem: *mut usize,
+            stream: *mut ::core::ffi::c_void,
+        ) -> cudaError_t,
+        ::libloading::Error,
+    >,
+    pub __cudaPushCallConfiguration: Result<
+        unsafe extern "C" fn(
+            gridDim: dim3,
+            blockDim: dim3,
+            sharedMem: usize,
+            stream: *mut CUstream_st,
+        ) -> ::core::ffi::c_uint,
+        ::libloading::Error,
+    >,
 }
 impl Lib {
     pub unsafe fn new<P>(path: P) -> Result<Self, ::libloading::Error>
@@ -11478,6 +11686,25 @@ impl Lib {
         let cudaGetKernel = __library.get(b"cudaGetKernel\0").map(|sym| *sym);
         let cudaProfilerStart = __library.get(b"cudaProfilerStart\0").map(|sym| *sym);
         let cudaProfilerStop = __library.get(b"cudaProfilerStop\0").map(|sym| *sym);
+        let __cudaRegisterFatBinary = __library.get(b"__cudaRegisterFatBinary\0").map(|sym| *sym);
+        let __cudaRegisterFatBinaryEnd = __library
+            .get(b"__cudaRegisterFatBinaryEnd\0")
+            .map(|sym| *sym);
+        let __cudaUnregisterFatBinary = __library
+            .get(b"__cudaUnregisterFatBinary\0")
+            .map(|sym| *sym);
+        let __cudaRegisterVar = __library.get(b"__cudaRegisterVar\0").map(|sym| *sym);
+        let __cudaRegisterManagedVar = __library.get(b"__cudaRegisterManagedVar\0").map(|sym| *sym);
+        let __cudaInitModule = __library.get(b"__cudaInitModule\0").map(|sym| *sym);
+        let __cudaRegisterTexture = __library.get(b"__cudaRegisterTexture\0").map(|sym| *sym);
+        let __cudaRegisterSurface = __library.get(b"__cudaRegisterSurface\0").map(|sym| *sym);
+        let __cudaRegisterFunction = __library.get(b"__cudaRegisterFunction\0").map(|sym| *sym);
+        let __cudaPopCallConfiguration = __library
+            .get(b"__cudaPopCallConfiguration\0")
+            .map(|sym| *sym);
+        let __cudaPushCallConfiguration = __library
+            .get(b"__cudaPushCallConfiguration\0")
+            .map(|sym| *sym);
         Ok(Lib {
             __library,
             cudaDeviceReset,
@@ -11784,6 +12011,17 @@ impl Lib {
             cudaGetKernel,
             cudaProfilerStart,
             cudaProfilerStop,
+            __cudaRegisterFatBinary,
+            __cudaRegisterFatBinaryEnd,
+            __cudaUnregisterFatBinary,
+            __cudaRegisterVar,
+            __cudaRegisterManagedVar,
+            __cudaInitModule,
+            __cudaRegisterTexture,
+            __cudaRegisterSurface,
+            __cudaRegisterFunction,
+            __cudaPopCallConfiguration,
+            __cudaPushCallConfiguration,
         })
     }
     pub unsafe fn cudaDeviceReset(&self) -> cudaError_t {
@@ -15232,5 +15470,182 @@ impl Lib {
             .cudaProfilerStop
             .as_ref()
             .expect("Expected function, got error."))()
+    }
+    pub unsafe fn __cudaRegisterFatBinary(
+        &self,
+        fatCubin: *mut __fatBinC_Wrapper_t,
+    ) -> *mut *mut ::core::ffi::c_void {
+        (self
+            .__cudaRegisterFatBinary
+            .as_ref()
+            .expect("Expected function, got error."))(fatCubin)
+    }
+    pub unsafe fn __cudaRegisterFatBinaryEnd(&self, fatCubinHandle: *mut *mut ::core::ffi::c_void) {
+        (self
+            .__cudaRegisterFatBinaryEnd
+            .as_ref()
+            .expect("Expected function, got error."))(fatCubinHandle)
+    }
+    pub unsafe fn __cudaUnregisterFatBinary(&self, fatCubinHandle: *mut *mut ::core::ffi::c_void) {
+        (self
+            .__cudaUnregisterFatBinary
+            .as_ref()
+            .expect("Expected function, got error."))(fatCubinHandle)
+    }
+    pub unsafe fn __cudaRegisterVar(
+        &self,
+        fatCubinHandle: *mut *mut ::core::ffi::c_void,
+        hostVar: *mut ::core::ffi::c_char,
+        deviceAddress: *mut ::core::ffi::c_char,
+        deviceName: *const ::core::ffi::c_char,
+        ext: ::core::ffi::c_int,
+        size: usize,
+        constant: ::core::ffi::c_int,
+        global: ::core::ffi::c_int,
+    ) {
+        (self
+            .__cudaRegisterVar
+            .as_ref()
+            .expect("Expected function, got error."))(
+            fatCubinHandle,
+            hostVar,
+            deviceAddress,
+            deviceName,
+            ext,
+            size,
+            constant,
+            global,
+        )
+    }
+    pub unsafe fn __cudaRegisterManagedVar(
+        &self,
+        fatCubinHandle: *mut *mut ::core::ffi::c_void,
+        hostVarPtrAddress: *mut *mut ::core::ffi::c_void,
+        deviceAddress: *mut ::core::ffi::c_char,
+        deviceName: *const ::core::ffi::c_char,
+        ext: ::core::ffi::c_int,
+        size: usize,
+        constant: ::core::ffi::c_int,
+        global: ::core::ffi::c_int,
+    ) {
+        (self
+            .__cudaRegisterManagedVar
+            .as_ref()
+            .expect("Expected function, got error."))(
+            fatCubinHandle,
+            hostVarPtrAddress,
+            deviceAddress,
+            deviceName,
+            ext,
+            size,
+            constant,
+            global,
+        )
+    }
+    pub unsafe fn __cudaInitModule(
+        &self,
+        fatCubinHandle: *mut *mut ::core::ffi::c_void,
+    ) -> ::core::ffi::c_char {
+        (self
+            .__cudaInitModule
+            .as_ref()
+            .expect("Expected function, got error."))(fatCubinHandle)
+    }
+    pub unsafe fn __cudaRegisterTexture(
+        &self,
+        fatCubinHandle: *mut *mut ::core::ffi::c_void,
+        hostVar: *const [u8; 0usize],
+        deviceAddress: *mut *const ::core::ffi::c_void,
+        deviceName: *const ::core::ffi::c_char,
+        dim: ::core::ffi::c_int,
+        norm: ::core::ffi::c_int,
+        ext: ::core::ffi::c_int,
+    ) {
+        (self
+            .__cudaRegisterTexture
+            .as_ref()
+            .expect("Expected function, got error."))(
+            fatCubinHandle,
+            hostVar,
+            deviceAddress,
+            deviceName,
+            dim,
+            norm,
+            ext,
+        )
+    }
+    pub unsafe fn __cudaRegisterSurface(
+        &self,
+        fatCubinHandle: *mut *mut ::core::ffi::c_void,
+        hostVar: *const [u8; 0usize],
+        deviceAddress: *mut *const ::core::ffi::c_void,
+        deviceName: *const ::core::ffi::c_char,
+        dim: ::core::ffi::c_int,
+        ext: ::core::ffi::c_int,
+    ) {
+        (self
+            .__cudaRegisterSurface
+            .as_ref()
+            .expect("Expected function, got error."))(
+            fatCubinHandle,
+            hostVar,
+            deviceAddress,
+            deviceName,
+            dim,
+            ext,
+        )
+    }
+    pub unsafe fn __cudaRegisterFunction(
+        &self,
+        fatCubinHandle: *mut *mut ::core::ffi::c_void,
+        hostFun: *const ::core::ffi::c_char,
+        deviceFun: *mut ::core::ffi::c_char,
+        deviceName: *const ::core::ffi::c_char,
+        thread_limit: ::core::ffi::c_int,
+        tid: *mut uint3,
+        bid: *mut uint3,
+        bDim: *mut dim3,
+        gDim: *mut dim3,
+        wSize: *mut ::core::ffi::c_int,
+    ) {
+        (self
+            .__cudaRegisterFunction
+            .as_ref()
+            .expect("Expected function, got error."))(
+            fatCubinHandle,
+            hostFun,
+            deviceFun,
+            deviceName,
+            thread_limit,
+            tid,
+            bid,
+            bDim,
+            gDim,
+            wSize,
+        )
+    }
+    pub unsafe fn __cudaPopCallConfiguration(
+        &self,
+        gridDim: *mut dim3,
+        blockDim: *mut dim3,
+        sharedMem: *mut usize,
+        stream: *mut ::core::ffi::c_void,
+    ) -> cudaError_t {
+        (self
+            .__cudaPopCallConfiguration
+            .as_ref()
+            .expect("Expected function, got error."))(gridDim, blockDim, sharedMem, stream)
+    }
+    pub unsafe fn __cudaPushCallConfiguration(
+        &self,
+        gridDim: dim3,
+        blockDim: dim3,
+        sharedMem: usize,
+        stream: *mut CUstream_st,
+    ) -> ::core::ffi::c_uint {
+        (self
+            .__cudaPushCallConfiguration
+            .as_ref()
+            .expect("Expected function, got error."))(gridDim, blockDim, sharedMem, stream)
     }
 }
